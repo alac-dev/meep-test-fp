@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- PROPERTIES -->
+	<property name="layout" value="%d{[yyyy/MM/dd - HH:mm:ss.SSS]} %-5level [%thread][%logger{0}] %m%n" />
+	<property name="rootPath" value="/var/log/dev" />
+	<property name="logFile" value="resourcemanager" />
+
+	<appender name="consoleAppender"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>${layout}</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>TRACE</level>
+		</filter>
+	</appender>
+
+	<appender name="dailyRollingFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rotado diario -->
+			<FileNamePattern>${rootPath}/${logFile}${node}.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!-- se mantiene durante 30 dias -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>${layout}</Pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.meep.resourcemanager" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="dailyRollingFileAppender" />
+		<appender-ref ref="consoleAppender" />
+	</logger>
+
+	<logger name="org.apache.http.headers" level="DEBUG"
+		additivity="false">
+		<appender-ref ref="consoleAppender" />
+	</logger>
+
+	<logger name="org.springframework.web.client" level="DEBUG"
+		additivity="false">
+		<appender-ref ref="consoleAppender" />
+	</logger>
+
+	<logger name="spring.web.client.MessageTracing.sent"
+		level="DEBUG" additivity="false">
+		<appender-ref ref="consoleAppender" />
+	</logger>
+
+	<logger name="spring.web.client.MessageTracing.received"
+		level="DEBUG" additivity="false">
+		<appender-ref ref="consoleAppender" />
+	</logger>
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="consoleAppender" />
+	</root>
+</configuration>

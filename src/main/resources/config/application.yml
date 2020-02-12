@@ -1,0 +1,20 @@
+# ===================================================================
+# Spring Boot configuración.
+#
+# Esta configuración será sobreescrita por el perfil de Spring en uso,
+# por ejemplo application-dev.yml si tu usas el perfil "dev".
+# ===================================================================
+spring:
+   application:
+      name: resourcemanager
+   devtools:
+      restart:
+         enabled: false
+   profiles:
+      active: local
+   h2:
+      console:
+         enabled: false
+         path: /h2-console
+server:
+   port: 8899
